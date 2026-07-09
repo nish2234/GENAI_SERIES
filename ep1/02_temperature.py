@@ -27,19 +27,20 @@ PROMPT = "Write a one-sentence tagline for a coffee shop."
 print(f"Prompt: \"{PROMPT}\"\n")
 print("=" * 60)
 
-temp = 1.5
-
-response = client.models.generate_content(
-        model="gemini-2.5-flash-lite",
+for temp in [0.0, 0.7, 1.5]:
+    response = client.models.generate_content(
+        model="gemini-3.1-flash-lite",
         contents=PROMPT,
         config=types.GenerateContentConfig(
             temperature=temp,
             max_output_tokens=60,
         ),
     )
-print(f"\nTemperature {temp}:")
-print(f"  {response.text}")
-print(f"  (tokens used: {response.usage_metadata.total_token_count})")
+    print(f"\nTemperature {temp}:")
+    print(f"  {response.text.strip()}")
+    print(f"  (tokens used: {response.usage_metadata.total_token_count})")
 
-    
-
+print("\n" + "=" * 60)
+print("\nTip: Run this script multiple times.")
+print("Notice temperature 0.0 gives nearly the same answer every time.")
+print("Temperature 1.5 gives a different answer on almost every run.")

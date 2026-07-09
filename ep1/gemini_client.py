@@ -2,9 +2,13 @@
 Reusable Gemini Client — Used in Every Episode of This Series
 ==============================================================
 
-This module provides two clean utility functions:
-  - generate()      → Send a prompt, get a text response
-  - count_tokens()  → Count tokens without generating a response
+Multi-provider fallback: Gemini (primary) → Groq → Cerebras
+If Gemini is down or rate-limited, automatically falls through to backup providers.
+
+Setup your .env file:
+  GEMINI_API_KEY=...           # Required — primary provider
+  GROQ_API_KEY=...             # Optional — fallback 1 (get free at console.groq.com)
+  CEREBRAS_API_KEY=...         # Optional — fallback 2 (get free at cloud.cerebras.ai)
 
 Usage (in any future episode file):
   from gemini_client import generate, count_tokens
@@ -14,13 +18,21 @@ Usage (in any future episode file):
 """
 
 import os
+import time
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
 load_dotenv()
 
-# Singleton client — created once, reused for all calls
+# --- Config ---
+GEMINI_MODEL = "gemini-3.1-flash-lite"
+GROQ_MODEL = "groq/openai/gpt-oss-120b"
+CEREBRAS_MODEL = "cerebras/gpt-oss-120b"
+MAX_RETRIES = 2
+INITIAL_WAIT = 2
+
+# Singleton client
 _client: genai.Client | None = None
 
 
@@ -38,107 +50,187 @@ def get_client() -> genai.Client:
     return _client
 
 
-def generate(
-    prompt: str,
-    model: str = "gemini-2.5-flash-lite",
-    temperature: float = 0.7,
-    max_tokens: int = 1024,
-    system: str | None = None,
-) -> str:
-    """
-    Send a prompt to Gemini and return the response text.
+def _is_retryable(error: Exception) -> bool:
+    """Check if an error is worth retrying."""
+    error_str = str(error).lower()
+    return any(k in error_str for k in [
+        "503", "429", "overloaded", "resource exhausted",
+        "deadline exceeded", "timeout", "unavailable",
+        "internal", "500", "connection",
+    ])
 
-    Args:
-        prompt:      The user message / question.
-        model:       Gemini model to use. Default: gemini-2.5-flash-lite
-        temperature: 0.0 = deterministic, 1.5 = creative. Default: 0.7
-        max_tokens:  Maximum tokens in the response. Default: 1024
-        system:      Optional system instruction (sets the model's persona/behaviour).
 
-    Returns:
-        The model's response as a plain string.
-
-    Example:
-        answer = generate("Explain RAG in one paragraph.")
-        answer = generate("Write a poem.", temperature=1.2)
-        answer = generate("Summarise this.", system="You are a concise technical writer.")
-    """
+def _call_gemini(prompt: str, temperature: float, max_tokens: int, system: str | None) -> str:
+    """Call Gemini with retry logic."""
     client = get_client()
-
     config = types.GenerateContentConfig(
         temperature=temperature,
         max_output_tokens=max_tokens,
         system_instruction=system,
     )
 
-    response = client.models.generate_content(
-        model=model,
-        contents=prompt,
-        config=config,
+    for attempt in range(MAX_RETRIES):
+        try:
+            response = client.models.generate_content(
+                model=GEMINI_MODEL, contents=prompt, config=config,
+            )
+            return response.text
+        except Exception as e:
+            if not _is_retryable(e) or attempt == MAX_RETRIES - 1:
+                raise
+            wait = INITIAL_WAIT * (2 ** attempt)
+            print(f"  [Gemini retry {attempt + 1}] Waiting {wait}s...")
+            time.sleep(wait)
+
+
+def _call_litellm(model: str, prompt: str, temperature: float, max_tokens: int, system: str | None) -> str:
+    """Call any model via litellm (OpenAI-compatible)."""
+    import litellm
+
+    messages = []
+    if system:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt})
+
+    for attempt in range(MAX_RETRIES):
+        try:
+            response = litellm.completion(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if not _is_retryable(e) or attempt == MAX_RETRIES - 1:
+                raise
+            wait = INITIAL_WAIT * (2 ** attempt)
+            provider = model.split("/")[0]
+            print(f"  [{provider} retry {attempt + 1}] Waiting {wait}s...")
+            time.sleep(wait)
+
+
+def generate(
+    prompt: str,
+    model: str = GEMINI_MODEL,
+    temperature: float = 0.7,
+    max_tokens: int = 1024,
+    system: str | None = None,
+) -> str:
+    """
+    Send a prompt and get a response. Falls through to backup providers on failure.
+
+    Fallback chain: Gemini → Groq → Cerebras
+    Backup providers only activate if their API key exists in .env
+
+    Args:
+        prompt:      The user message / question.
+        model:       Primary model (default: gemini-3.1-flash-lite).
+        temperature: 0.0 = deterministic, 1.5 = creative. Default: 0.7
+        max_tokens:  Maximum tokens in the response. Default: 1024
+        system:      Optional system instruction.
+
+    Returns:
+        The model's response as a plain string.
+    """
+    # Attempt 1: Gemini (primary)
+    try:
+        return _call_gemini(prompt, temperature, max_tokens, system)
+    except Exception as e:
+        print(f"  [Gemini failed: {str(e)[:80]}]")
+
+    # Attempt 2: Groq (if key exists)
+    if os.environ.get("GROQ_API_KEY"):
+        try:
+            print("  [Falling back to Groq...]")
+            return _call_litellm(GROQ_MODEL, prompt, temperature, max_tokens, system)
+        except Exception as e:
+            print(f"  [Groq failed: {str(e)[:80]}]")
+
+    # Attempt 3: Cerebras (if key exists)
+    if os.environ.get("CEREBRAS_API_KEY"):
+        try:
+            print("  [Falling back to Cerebras...]")
+            return _call_litellm(CEREBRAS_MODEL, prompt, temperature, max_tokens, system)
+        except Exception as e:
+            print(f"  [Cerebras failed: {str(e)[:80]}]")
+
+    raise RuntimeError(
+        "All providers failed. Check your API keys and network connection.\n"
+        "Required: GEMINI_API_KEY\n"
+        "Optional fallbacks: GROQ_API_KEY, CEREBRAS_API_KEY"
     )
-    return response.text
 
 
 def generate_with_metadata(
     prompt: str,
-    model: str = "gemini-2.5-flash-lite",
+    model: str = GEMINI_MODEL,
     temperature: float = 0.7,
     max_tokens: int = 1024,
     system: str | None = None,
 ) -> dict:
     """
     Same as generate() but also returns token usage and finish reason.
-
-    Returns a dict with keys:
-        text, input_tokens, output_tokens, total_tokens, finish_reason
+    Note: metadata is only available when Gemini responds (not on fallback).
     """
     client = get_client()
-
     config = types.GenerateContentConfig(
         temperature=temperature,
         max_output_tokens=max_tokens,
         system_instruction=system,
     )
 
-    response = client.models.generate_content(
-        model=model,
-        contents=prompt,
-        config=config,
-    )
-    return {
-        "text": response.text,
-        "input_tokens": response.usage_metadata.prompt_token_count,
-        "output_tokens": response.usage_metadata.candidates_token_count,
-        "total_tokens": response.usage_metadata.total_token_count,
-        "finish_reason": str(response.candidates[0].finish_reason),
-    }
+    try:
+        response = client.models.generate_content(
+            model=model, contents=prompt, config=config,
+        )
+        return {
+            "text": response.text,
+            "input_tokens": response.usage_metadata.prompt_token_count,
+            "output_tokens": response.usage_metadata.candidates_token_count,
+            "total_tokens": response.usage_metadata.total_token_count,
+            "finish_reason": str(response.candidates[0].finish_reason),
+            "provider": "gemini",
+        }
+    except Exception:
+        text = generate(prompt, model, temperature, max_tokens, system)
+        return {
+            "text": text,
+            "input_tokens": None,
+            "output_tokens": None,
+            "total_tokens": None,
+            "finish_reason": "stop",
+            "provider": "fallback",
+        }
 
 
-def count_tokens(prompt: str, model: str = "gemini-2.5-flash-lite") -> int:
-    """
-    Count how many tokens a prompt uses WITHOUT making a generation request.
-
-    Useful for:
-        - Estimating cost before sending a large document
-        - Checking if a prompt fits in the context window
-        - Debugging token budget in RAG / agent pipelines
-
-    Returns:
-        Integer token count.
-    """
+def count_tokens(prompt: str, model: str = GEMINI_MODEL) -> int:
+    """Count how many tokens a prompt uses WITHOUT making a generation request."""
     client = get_client()
-    result = client.models.count_tokens(model=model, contents=prompt)
-    return result.total_tokens
+
+    for attempt in range(MAX_RETRIES):
+        try:
+            result = client.models.count_tokens(model=model, contents=prompt)
+            return result.total_tokens
+        except Exception as e:
+            if not _is_retryable(e) or attempt == MAX_RETRIES - 1:
+                raise
+            time.sleep(INITIAL_WAIT * (2 ** attempt))
 
 
 # --- Self-test when run directly ---
 if __name__ == "__main__":
-    print("Testing Gemini client...\n")
+    print("Testing Gemini client (with multi-provider fallback)...\n")
+
+    print("Providers configured:")
+    print(f"  Gemini:   {'YES' if os.environ.get('GEMINI_API_KEY') else 'NO'}")
+    print(f"  Groq:     {'YES' if os.environ.get('GROQ_API_KEY') else 'NO (optional)'}")
+    print(f"  Cerebras: {'YES' if os.environ.get('CEREBRAS_API_KEY') else 'NO (optional)'}")
 
     # Token count test
-    test_prompt = "Hello, this is a test of the Gemini client."
-    tokens = count_tokens(test_prompt)
-    print(f"Token count for test prompt: {tokens}")
+    print("\nCounting tokens...")
+    tokens = count_tokens("Hello, this is a test of the Gemini client.")
+    print(f"Token count: {tokens}")
 
     # Generation test
     print("\nCalling generate()...")
@@ -148,8 +240,9 @@ if __name__ == "__main__":
     # Metadata test
     print("\nCalling generate_with_metadata()...")
     meta = generate_with_metadata("What is 2 + 2? Answer in one word.")
-    print(f"Answer      : {meta['text'].strip()}")
-    print(f"Total tokens: {meta['total_tokens']}")
-    print(f"Finish      : {meta['finish_reason']}")
+    print(f"Answer   : {meta['text'].strip()}")
+    print(f"Provider : {meta['provider']}")
+    if meta['total_tokens']:
+        print(f"Tokens   : {meta['total_tokens']}")
 
     print("\nAll tests passed. Client is ready.")

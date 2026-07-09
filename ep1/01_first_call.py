@@ -22,7 +22,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 # --- Make your first API call ---
 response = client.models.generate_content(
-    model="gemini-2.5-flash-lite",
+    model="gemini-3.1-flash-lite",
     contents="Explain what a Large Language Model is in 3 sentences.",
 )
 

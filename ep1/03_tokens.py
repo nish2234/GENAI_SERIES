@@ -21,7 +21,7 @@ from google import genai
 load_dotenv()
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-MODEL = "gemini-2.5-flash-lite"
+MODEL = "gemini-3.1-flash-lite"
 
 # Different texts to compare token counts
 samples = [
@@ -54,4 +54,5 @@ result = client.models.count_tokens(model=MODEL, contents=combined)
 
 print(f"System prompt tokens : {client.models.count_tokens(model=MODEL, contents=system_prompt).total_tokens}")
 print(f"User message tokens  : {client.models.count_tokens(model=MODEL, contents=user_message).total_tokens}")
+print(f"Combined total       : {result.total_tokens}")
 
