@@ -31,5 +31,9 @@ if __name__ == "__main__":
             categories=", ".join(categories),
             text=text,
         )
+
+        print(prompt)
         result = generate(prompt, temperature=0.0)
         print(f"  [{result.strip():15s}]  {text[:60]}")
+
+

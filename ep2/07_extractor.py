@@ -51,13 +51,13 @@ if __name__ == "__main__":
 
     # Clean potential markdown fencing
     cleaned = result.strip()
-    if cleaned.startswith("```"):
-        cleaned = "\n".join(cleaned.split("\n")[1:-1])
+    print(cleaned)
+
 
     try:
         data = json.loads(cleaned)
         print("Extracted JSON:")
-        print(json.dumps(data, indent=2))
+        #print(json.dumps(data, indent=2))
     except json.JSONDecodeError:
         print("Raw output (not valid JSON):")
         print(result)
