@@ -30,16 +30,17 @@ result = client.models.embed_content(
     contents=text,
 )
 
-embedding = result.embeddings[0].values
-vector = np.array(embedding)
+# print(result)
+# embedding = result.embeddings[0].values
+# vector = np.array(embedding)
 
-print(f"Text: \"{text}\"")
-print(f"\nEmbedding dimensions: {vector.shape[0]}")
-print(f"First 10 values:     {vector[:10]}")
-print(f"Last 5 values:       {vector[-5:]}")
-print(f"Min value:           {vector.min():.6f}")
-print(f"Max value:           {vector.max():.6f}")
-print(f"Mean value:          {vector.mean():.6f}")
+# print(f"Text: \"{text}\"")
+# print(f"\nEmbedding dimensions: {vector.shape[0]}")
+# print(f"First 10 values:     {vector[:10]}")
+# print(f"Last 5 values:       {vector[-5:]}")
+# print(f"Min value:           {vector.min():.6f}")
+# print(f"Max value:           {vector.max():.6f}")
+# print(f"Mean value:          {vector.mean():.6f}")
 
 # --- Embed a few more texts to see how dimensions stay the same ---
 

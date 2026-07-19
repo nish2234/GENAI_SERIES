@@ -1,0 +1,67 @@
+NovaTech Solutions — Company Handbook (2025 Edition)
+
+SECTION 1: COMPANY OVERVIEW
+
+NovaTech Solutions is a technology company founded in 2019 by CEO Priya Sharma and CTO Marcus Rivera. Headquartered in Austin, Texas, the company specialises in smart home technology and enterprise IoT platforms. Since its founding, NovaTech has grown from a 5-person startup to a team of 250 employees across three offices: Austin (headquarters), Seattle (engineering), and London (international sales).
+
+The company's mission is: "To make intelligent technology accessible to every home and business." NovaTech generated $47 million in revenue in 2024 and is projecting $68 million for 2025, representing 45% year-over-year growth.
+
+SECTION 2: LEADERSHIP TEAM
+
+The leadership team consists of six executives:
+- Priya Sharma, CEO — Co-founder, previously VP of Product at Cisco. Holds an MBA from Stanford.
+- Marcus Rivera, CTO — Co-founder, former senior engineer at Google. Leads the engineering organisation of 120 people. PhD in Computer Science from MIT.
+- Sarah Chen, VP of Engineering — Joined in 2021, previously at Amazon Web Services. Manages the Seattle engineering office.
+- James Okafor, VP of Sales — Leads the global sales team of 45 people. Based in the London office.
+- Anika Patel, VP of Product — Oversees the product roadmap and design team. Previously at Apple.
+- David Kim, CFO — Joined in 2023. Previously CFO at two successful startups. Manages a finance team of 12.
+
+SECTION 3: PRODUCTS
+
+NovaTech's product lineup includes three flagship products:
+
+1. SmartHome Hub (Consumer Product)
+The SmartHome Hub is a central device that connects all IoT devices in a home — lights, thermostats, cameras, locks, and appliances. It supports Zigbee, Z-Wave, Wi-Fi, and Bluetooth protocols. Priced at $149, it has sold over 500,000 units since launch in 2021. The Hub uses on-device AI to learn household patterns and automate routines without cloud dependency. Customer satisfaction rating: 4.6 out of 5 stars.
+
+2. NovaSense Enterprise Platform (B2B Product)
+NovaSense is a cloud-based IoT monitoring platform for commercial buildings. It tracks energy usage, occupancy, air quality, and equipment health in real-time. Used by over 200 enterprise customers including three Fortune 500 companies. Pricing starts at $2,500/month for up to 500 sensors. The platform reduced energy costs by an average of 23% for its customers in 2024.
+
+3. NovaGuard Security System (Consumer Product)
+NovaGuard is a home security system launched in March 2024. It includes cameras, motion sensors, door/window sensors, and a 24/7 professional monitoring service. Priced at $299 for the starter kit plus $19.99/month for monitoring. It features AI-powered person detection, package detection, and pet-aware motion filtering. NovaGuard has 35,000 active subscribers as of December 2024.
+
+SECTION 4: ENGINEERING AND TECHNOLOGY
+
+The engineering department follows an agile methodology with two-week sprints. The tech stack includes:
+- Backend: Python (FastAPI), Go for high-performance services
+- Frontend: React, TypeScript
+- Mobile: Swift (iOS), Kotlin (Android)
+- Infrastructure: AWS, Kubernetes, Terraform
+- ML/AI: PyTorch, TensorFlow Lite (for on-device models)
+- Data: PostgreSQL, Redis, Apache Kafka for event streaming
+
+The engineering team is organised into 8 squads: Platform, Firmware, Mobile, Web, ML/AI, Security, DevOps, and QA. Each squad has 10-15 engineers, a tech lead, and a product manager. Code reviews are mandatory — every pull request requires at least two approvals before merging. The team maintains 94% unit test coverage across all backend services.
+
+SECTION 5: COMPANY POLICIES
+
+Return Policy:
+NovaTech offers a 45-day return policy on all consumer products. Products must be returned in original packaging with all accessories included. Refunds are processed within 7-10 business days after the returned item is received and inspected. Opened products may be subject to a 15% restocking fee. Enterprise contracts include a 90-day satisfaction guarantee with full refund.
+
+Remote Work Policy:
+NovaTech operates a hybrid work model. Employees are expected to work from the office Tuesday through Thursday. Monday and Friday are flexible work-from-home days. Fully remote positions are available for engineering roles outside the Austin and Seattle metro areas, subject to manager approval. All remote employees must maintain core hours of 10 AM to 3 PM in their local time zone for collaboration.
+
+Paid Time Off:
+All full-time employees receive 20 days of PTO per year, plus 10 company holidays. PTO increases to 25 days after 3 years of employment and 30 days after 5 years. Unused PTO can be rolled over up to a maximum of 5 days into the next calendar year.
+
+Professional Development:
+Each employee receives a $3,000 annual professional development budget for conferences, courses, certifications, and books. The company also offers internal lunch-and-learn sessions every Friday and partners with Coursera for unlimited access to online courses.
+
+SECTION 6: CULTURE AND VALUES
+
+NovaTech's five core values are:
+1. Build with empathy — Every product decision starts with the user's needs.
+2. Ship and iterate — Launch early, learn fast, improve continuously.
+3. Radical transparency — Share information openly across teams.
+4. Own your impact — Take responsibility for outcomes, not just outputs.
+5. Grow together — Invest in each other's development and celebrate wins as a team.
+
+The company holds quarterly all-hands meetings where every team presents their progress and upcoming plans. Monthly "Demo Days" allow any employee to showcase side projects or experiments. NovaTech was named one of Austin's "Best Places to Work" in 2023 and 2024 by the Austin Business Journal.
