@@ -1,0 +1,32 @@
+ACME CORPORATION — FREQUENTLY ASKED QUESTIONS
+===============================================
+
+Q: How do I reset my password?
+A: Go to the login page and click "Forgot Password." Enter your email address and you will receive a password reset link within 5 minutes. The link expires after 24 hours. If you do not receive the email, check your spam folder or contact IT support at support@acmecorp.com.
+
+Q: What are the office hours?
+A: Our main office is open Monday through Friday, 8:00 AM to 6:00 PM local time. The reception desk is staffed from 8:30 AM to 5:30 PM. Building access with badge is available 24/7 for employees with security clearance level 2 and above.
+
+Q: How do I request new equipment (laptop, monitor, etc.)?
+A: Submit an Equipment Request form through the IT Portal. Standard equipment (laptops, monitors, keyboards) is typically fulfilled within 5 business days. Non-standard or high-cost equipment ($1,000+) requires manager approval and may take 2-3 weeks. All company equipment must be returned upon termination of employment.
+
+Q: Can I use my personal device for work?
+A: Yes, ACME supports a Bring Your Own Device (BYOD) policy for smartphones and tablets. Personal devices must be enrolled in our Mobile Device Management (MDM) system before accessing company email or internal tools. BYOD is not permitted for primary work laptops — all employees are issued a company laptop. Contact IT to enroll your personal device.
+
+Q: How do I book a conference room?
+A: Conference rooms are booked through the Office Calendar app, available at calendar.acmecorp.com or through the mobile app. Rooms can be booked in 30-minute increments, up to 4 hours per session. Recurring bookings are limited to 4 weeks in advance. If you need a room with video conferencing equipment, filter by "AV Equipped" when searching. Please cancel bookings you no longer need at least 2 hours in advance so others can use the room.
+
+Q: What is the company's parental leave policy?
+A: ACME offers 16 weeks of fully paid parental leave for primary caregivers and 8 weeks for secondary caregivers. Parental leave can be taken continuously or split into two blocks within the first 12 months of the child's birth or adoption. To request parental leave, notify your manager and HR at least 30 days in advance (or as soon as practicable for adoption or emergency situations). Parental leave does not affect PTO accrual.
+
+Q: How does the 401(k) plan work?
+A: ACME offers a 401(k) retirement plan with a company match of up to 4% of your base salary. Employees are eligible to participate after 90 days of employment. You can contribute up to the IRS annual limit. ACME's matching contributions vest over 3 years: 33% after year 1, 66% after year 2, and 100% after year 3. To enroll or change your contribution, log into the Benefits Portal.
+
+Q: What should I do if I witness workplace harassment?
+A: Report it immediately. You can report to your manager, HR, or use the anonymous ethics hotline at 1-800-555-ETHIC. All reports are investigated confidentially. ACME has a strict zero-tolerance policy for harassment, discrimination, and retaliation. Reporters are protected under our anti-retaliation policy. Investigations are typically completed within 15 business days.
+
+Q: How do I access the VPN for remote work?
+A: Download the ACME VPN client from the IT Portal (it.acmecorp.com/vpn). Use your company email and password to authenticate. First-time setup requires two-factor authentication (2FA) via the ACME Authenticator app. The VPN must be active when accessing internal tools, databases, or shared drives from outside the office network. If you experience connection issues, contact IT support with your device type and operating system version.
+
+Q: What is the policy on side projects and outside employment?
+A: Employees may engage in side projects and outside employment provided there is no conflict of interest with ACME's business and it does not interfere with job performance. All outside employment and significant side projects must be disclosed to your manager and HR using the Outside Activity Disclosure form. Employees may not use company resources (equipment, software, data) for personal or outside projects. Intellectual property created on company time or with company resources belongs to ACME Corporation.
