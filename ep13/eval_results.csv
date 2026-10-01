@@ -1,0 +1,6 @@
+id,question,category,passed,keyword_pass,llm_score,llm_reason,tools_used,expected_tools,tool_match,num_steps,elapsed_s,response_preview
+fact_01,What is the capital of France?,factual,True,True,5,The response correctly identifies Paris as the capital of France.,search,,True,5,23.26,The capital of France is Paris.
+fact_02,Who wrote the play Romeo and Juliet?,factual,True,True,5,The response correctly identifies William Shakespeare as the author of Romeo and Juliet.,search,,True,5,13.74,The play *Romeo and Juliet* was written by William Shakespeare.
+fact_03,What is the chemical symbol for gold?,factual,True,True,5,The response correctly identifies the chemical symbol for gold as Au.,search,,True,5,4.82,The chemical symbol for gold is **Au**.
+fact_04,What is the largest planet in our solar system?,factual,True,True,5,The response correctly identifies Jupiter as the largest planet in the solar system.,search,,True,5,5.02,The largest planet in our solar system is Jupiter.
+reason_01,What is 247 * 18?,reasoning,False,False,5,The model correctly calculated the product and included the expected answer.,calculator,calculator,True,5,14.13,"247 * 18 = 4,446"

@@ -1,0 +1,26 @@
+test_id,step_num,step_type,content,timestamp,elapsed_ms
+fact_01,1,INPUT,What is the capital of France?,2026-09-30T22:05:04.162654,0
+fact_01,2,THOUGHT,Tool decision: search | capital of France,2026-09-30T22:05:21.687864,17525
+fact_01,3,ACTION,search(capital of France),2026-09-30T22:05:21.687903,17525
+fact_01,4,OBSERVATION,Search results for 'capital of France': No specific results found.,2026-09-30T22:05:21.687939,17525
+fact_01,5,ANSWER,The capital of France is Paris.,2026-09-30T22:05:27.421315,23259
+fact_02,1,INPUT,Who wrote the play Romeo and Juliet?,2026-09-30T22:05:30.904470,0
+fact_02,2,THOUGHT,Tool decision: search | Who wrote the play Romeo and Juliet?,2026-09-30T22:05:39.094743,8190
+fact_02,3,ACTION,search(Who wrote the play Romeo and Juliet?),2026-09-30T22:05:39.094755,8190
+fact_02,4,OBSERVATION,Search results for 'Who wrote the play Romeo and Juliet?': No specific results found.,2026-09-30T22:05:39.094769,8190
+fact_02,5,ANSWER,The play *Romeo and Juliet* was written by William Shakespeare.,2026-09-30T22:05:44.643633,13739
+fact_03,1,INPUT,What is the chemical symbol for gold?,2026-09-30T22:05:53.531982,0
+fact_03,2,THOUGHT,Tool decision: search | chemical symbol for gold,2026-09-30T22:05:56.195584,2664
+fact_03,3,ACTION,search(chemical symbol for gold),2026-09-30T22:05:56.195598,2664
+fact_03,4,OBSERVATION,Search results for 'chemical symbol for gold': No specific results found.,2026-09-30T22:05:56.195607,2664
+fact_03,5,ANSWER,The chemical symbol for gold is **Au**.,2026-09-30T22:05:58.347773,4816
+fact_04,1,INPUT,What is the largest planet in our solar system?,2026-09-30T22:06:02.444620,0
+fact_04,2,THOUGHT,Tool decision: search | largest planet in our solar system,2026-09-30T22:06:05.309872,2865
+fact_04,3,ACTION,search(largest planet in our solar system),2026-09-30T22:06:05.309889,2865
+fact_04,4,OBSERVATION,Search results for 'largest planet in our solar system': No specific results found.,2026-09-30T22:06:05.309912,2865
+fact_04,5,ANSWER,The largest planet in our solar system is Jupiter.,2026-09-30T22:06:07.459636,5015
+reason_01,1,INPUT,What is 247 * 18?,2026-09-30T22:06:14.528154,0
+reason_01,2,THOUGHT,Tool decision: calculator | 247 * 18,2026-09-30T22:06:24.457995,9930
+reason_01,3,ACTION,calculator(247 * 18),2026-09-30T22:06:24.458021,9930
+reason_01,4,OBSERVATION,4446,2026-09-30T22:06:24.458167,9930
+reason_01,5,ANSWER,"247 * 18 = 4,446",2026-09-30T22:06:28.657449,14129
