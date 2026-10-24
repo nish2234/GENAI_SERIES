@@ -1,0 +1,13 @@
+google-adk[extensions]>=2.0.0
+
+# CrewAI tool library (SerperDevTool, ScrapeWebsiteTool, DirectoryReadTool, FileReadTool, FileWriterTool, ...)
+crewai-tools
+crewai
+
+# LangChain community tools (Wikipedia + arXiv need no API key)
+langchain-community
+wikipedia
+arxiv<4.0.0
+
+# Optional keyed LangChain tool (only used if TAVILY_API_KEY is set)
+langchain-tavily

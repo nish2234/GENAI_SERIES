@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Hacker News Search API (Algolia)
+  version: "1.0"
+  description: Free, keyless search over Hacker News stories, comments and users.
+servers:
+  - url: https://hn.algolia.com/api/v1
+paths:
+  /search:
+    get:
+      operationId: searchStories
+      summary: Search Hacker News, ranked by relevance and points.
+      description: >
+        Full-text search over Hacker News. Use tags=story for stories only.
+        Use numericFilters like 'points>100' to keep only popular items.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: Search keywords, for example 'google adk'.
+          schema:
+            type: string
+        - name: tags
+          in: query
+          required: false
+          description: Filter by type. One of 'story', 'comment', 'show_hn', 'ask_hn', 'front_page'.
+          schema:
+            type: string
+        - name: numericFilters
+          in: query
+          required: false
+          description: Numeric filters such as 'points>100' or 'num_comments>50'.
+          schema:
+            type: string
+        - name: hitsPerPage
+          in: query
+          required: false
+          description: Number of results to return (keep this small, 5 to 10).
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Search results.
+  /search_by_date:
+    get:
+      operationId: searchStoriesByDate
+      summary: Search Hacker News, newest first.
+      description: Same as searchStories but sorted by date, most recent first. Best for "latest" questions.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: Search keywords, for example 'ai agents'.
+          schema:
+            type: string
+        - name: tags
+          in: query
+          required: false
+          description: Filter by type. One of 'story', 'comment', 'show_hn', 'ask_hn'.
+          schema:
+            type: string
+        - name: hitsPerPage
+          in: query
+          required: false
+          description: Number of results to return (keep this small, 5 to 10).
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Search results, newest first.
+  /users/{username}:
+    get:
+      operationId: getUser
+      summary: Get a Hacker News user's public profile (karma and about text).
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The Hacker News username, for example 'pg'.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The user's profile.
